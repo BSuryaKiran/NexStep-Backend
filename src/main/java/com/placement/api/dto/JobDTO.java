@@ -6,7 +6,7 @@ public class JobDTO {
     private String description;
     private String company;
     private String location;
-    private Double salary;
+    private String salary;
     private String postedBy;
     private Boolean active;
     private String type;
@@ -18,7 +18,7 @@ public class JobDTO {
 
     public JobDTO() {}
 
-    public JobDTO(Long id, String title, String description, String company, String location, Double salary, String postedBy, Boolean active) {
+    public JobDTO(Long id, String title, String description, String company, String location, String salary, String postedBy, Boolean active) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -44,8 +44,8 @@ public class JobDTO {
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
 
-    public Double getSalary() { return salary; }
-    public void setSalary(Double salary) { this.salary = salary; }
+    public String getSalary() { return salary; }
+    public void setSalary(String salary) { this.salary = salary; }
 
     public String getPostedBy() { return postedBy; }
     public void setPostedBy(String postedBy) { this.postedBy = postedBy; }

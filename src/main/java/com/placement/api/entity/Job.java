@@ -21,7 +21,7 @@ public class Job {
 
     private String location;
 
-    private Double salary;
+    private String salary;
 
     @ManyToOne
     @JoinColumn(name = "posted_by")
@@ -44,7 +44,7 @@ public class Job {
 
     public Job() {}
 
-    public Job(Long id, String title, String description, String company, String location, Double salary, User postedBy, Date postedDate, Boolean active) {
+    public Job(Long id, String title, String description, String company, String location, String salary, User postedBy, Date postedDate, Boolean active) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -71,8 +71,8 @@ public class Job {
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
 
-    public Double getSalary() { return salary; }
-    public void setSalary(Double salary) { this.salary = salary; }
+    public String getSalary() { return salary; }
+    public void setSalary(String salary) { this.salary = salary; }
 
     public User getPostedBy() { return postedBy; }
     public void setPostedBy(User postedBy) { this.postedBy = postedBy; }
