@@ -22,6 +22,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, WebRequest request) {
+        // Log the exception message so it's visible in the STS terminal
+        System.err.println("BAD REQUEST EXCEPTION: " + ex.getMessage());
+        
         ErrorResponse errorResponse = new ErrorResponse(
                 false,
                 ex.getMessage(),

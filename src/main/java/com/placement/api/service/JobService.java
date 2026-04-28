@@ -52,6 +52,15 @@ public class JobService {
         job.setSalary(jobDetails.getSalary());
         job.setLocation(jobDetails.getLocation());
         job.setCompany(jobDetails.getCompany());
+        
+        // New fields
+        job.setType(jobDetails.getType());
+        job.setDeadline(jobDetails.getDeadline());
+        job.setExamDate(jobDetails.getExamDate());
+        job.setMode(jobDetails.getMode());
+        job.setInterviewDetails(jobDetails.getInterviewDetails());
+        job.setSkills(jobDetails.getSkills());
+        
         Job updatedJob = jobRepository.save(job);
         return convertToDTO(updatedJob);
     }
@@ -61,7 +70,7 @@ public class JobService {
     }
 
     private JobDTO convertToDTO(Job job) {
-        return new JobDTO(
+        JobDTO dto = new JobDTO(
             job.getId(),
             job.getTitle(),
             job.getDescription(),
@@ -71,5 +80,15 @@ public class JobService {
             job.getPostedBy() != null ? job.getPostedBy().getFullName() : "Unknown",
             job.getActive()
         );
+        
+        // Populate new fields
+        dto.setType(job.getType());
+        dto.setDeadline(job.getDeadline());
+        dto.setExamDate(job.getExamDate());
+        dto.setMode(job.getMode());
+        dto.setInterviewDetails(job.getInterviewDetails());
+        dto.setSkills(job.getSkills());
+        
+        return dto;
     }
 }

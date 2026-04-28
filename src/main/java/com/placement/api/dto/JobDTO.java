@@ -9,6 +9,12 @@ public class JobDTO {
     private Double salary;
     private String postedBy;
     private Boolean active;
+    private String type;
+    private String deadline;
+    private String examDate;
+    private String mode;
+    private String interviewDetails;
+    private String skills;
 
     public JobDTO() {}
 
@@ -46,4 +52,22 @@ public class JobDTO {
 
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
+
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public String getDeadline() { return deadline; }
+    public void setDeadline(String deadline) { this.deadline = deadline; }
+
+    public String getExamDate() { return examDate; }
+    public void setExamDate(String examDate) { this.examDate = examDate; }
+
+    public String getMode() { return mode; }
+    public void setMode(String mode) { this.mode = mode; }
+
+    public String getInterviewDetails() { return interviewDetails; }
+    public void setInterviewDetails(String interviewDetails) { this.interviewDetails = interviewDetails; }
+
+    public String getSkills() { return skills; }
+    public void setSkills(String skills) { this.skills = skills; }
 }

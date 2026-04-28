@@ -68,7 +68,7 @@ public class JobController {
     }
 
     private JobDTO convertToDTO(Job job) {
-        return new JobDTO(
+        JobDTO dto = new JobDTO(
             job.getId(),
             job.getTitle(),
             job.getDescription(),
@@ -78,5 +78,14 @@ public class JobController {
             job.getPostedBy() != null ? job.getPostedBy().getFullName() : "Unknown",
             job.getActive()
         );
+        
+        dto.setType(job.getType());
+        dto.setDeadline(job.getDeadline());
+        dto.setExamDate(job.getExamDate());
+        dto.setMode(job.getMode());
+        dto.setInterviewDetails(job.getInterviewDetails());
+        dto.setSkills(job.getSkills());
+        
+        return dto;
     }
 }

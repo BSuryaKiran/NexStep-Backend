@@ -30,6 +30,9 @@ public class ApplicationService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public ApplicationDTO createApplication(Long jobId, Long userId, String resumeUrl) {
         if (jobId == null || userId == null) {
             throw new BadRequestException("Job ID and User ID are required");
@@ -62,6 +65,17 @@ public class ApplicationService {
         application.setResume(resumeUrl);
 
         application = applicationRepository.save(application);
+
+        // Send Email Notification on Application
+        try {
+            String companyName = job.getPostedBy() != null && job.getPostedBy().getCompanyName() != null 
+                ? job.getPostedBy().getCompanyName() : job.getCompany();
+            String recruiterName = job.getPostedBy() != null ? job.getPostedBy().getFullName() : "Recruiter";
+            
+            emailService.sendApplicationReceivedEmail(user.getEmail(), user.getFullName(), job.getTitle(), companyName, recruiterName);
+        } catch (Exception e) {
+            System.err.println("Could not send application email: " + e.getMessage());
+        }
 
         return convertToDTO(application);
     }
@@ -119,6 +133,34 @@ public class ApplicationService {
         }
 
         application = applicationRepository.save(application);
+
+        // Debug Log: Let's see what status we just saved
+        System.out.println("DEBUG: Application status updated to: " + application.getStatus());
+
+        // Send Email Notification
+        if (application.getApplicant() != null && application.getJob() != null) {
+            String studentEmail = application.getApplicant().getEmail();
+            String studentName = application.getApplicant().getFullName();
+            String jobTitle = application.getJob().getTitle();
+            ApplicationStatus currentStatus = application.getStatus();
+
+            // Get dynamic company and recruiter names
+            String companyName = application.getJob().getPostedBy() != null && application.getJob().getPostedBy().getCompanyName() != null 
+                ? application.getJob().getPostedBy().getCompanyName() : application.getJob().getCompany();
+            String recruiterName = application.getJob().getPostedBy() != null ? application.getJob().getPostedBy().getFullName() : "Recruiter";
+
+            // Trigger Accepted email for both ACCEPTED and INTERVIEW_SCHEDULED
+            if (currentStatus == ApplicationStatus.ACCEPTED || currentStatus == ApplicationStatus.INTERVIEW_SCHEDULED) {
+                System.out.println("Processing ACCEPTANCE email (Status: " + currentStatus + ") for: " + studentEmail);
+                emailService.sendAcceptanceEmail(studentEmail, studentName, jobTitle, companyName, recruiterName);
+            } else if (currentStatus == ApplicationStatus.REJECTED) {
+                System.out.println("Processing REJECTED email for: " + studentEmail);
+                emailService.sendRejectionEmail(studentEmail, studentName, jobTitle, companyName, recruiterName);
+            } else {
+                System.out.println("DEBUG: No email triggered for status: " + currentStatus);
+            }
+        }
+
         return convertToDTO(application);
     }
 

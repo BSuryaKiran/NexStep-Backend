@@ -15,8 +15,8 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "job_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "job_id", nullable = false)
     private Job job;
 
     @ManyToOne
